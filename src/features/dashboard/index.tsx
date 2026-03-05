@@ -13,6 +13,13 @@ import type {
   PurchaseOrder,
   Warehouse,
   Role,
+  CardFramework,
+  CardTemplate,
+  CardProduct,
+  Product,
+  Collection,
+  Voucher,
+  CustomerOrder,
 } from "@/types";
 import {
   Users,
@@ -21,6 +28,13 @@ import {
   Package,
   Truck,
   ShoppingCart,
+  Layers,
+  CreditCard,
+  Nfc,
+  Boxes,
+  Library,
+  TicketPercent,
+  ClipboardList,
 } from "lucide-react";
 
 interface SummaryCard {
@@ -38,6 +52,13 @@ export function Dashboard() {
     inventory: number | null;
     suppliers: number | null;
     purchaseOrders: number | null;
+    cardFrameworks: number | null;
+    cardTemplates: number | null;
+    cardProducts: number | null;
+    products: number | null;
+    collections: number | null;
+    vouchers: number | null;
+    orders: number | null;
   }>({
     accounts: null,
     roles: null,
@@ -45,18 +66,45 @@ export function Dashboard() {
     inventory: null,
     suppliers: null,
     purchaseOrders: null,
+    cardFrameworks: null,
+    cardTemplates: null,
+    cardProducts: null,
+    products: null,
+    collections: null,
+    vouchers: null,
+    orders: null,
   });
 
   useEffect(() => {
     async function load() {
-      const [accounts, roles, warehouses, inventory, suppliers, purchaseOrders] =
-        await Promise.all([
+      const [
+        accounts,
+        roles,
+        warehouses,
+        inventory,
+        suppliers,
+        purchaseOrders,
+        cardFrameworks,
+        cardTemplates,
+        cardProducts,
+        products,
+        collections,
+        vouchers,
+        orders,
+      ] = await Promise.all([
           apiClient.get<Account[]>("/api/accounts"),
           apiClient.get<Role[]>("/api/roles"),
           apiClient.get<Warehouse[]>("/api/warehouses"),
           apiClient.get<Inventory[]>("/api/inventory"),
           apiClient.get<Supplier[]>("/api/suppliers"),
           apiClient.get<PurchaseOrder[]>("/api/purchase-orders"),
+          apiClient.get<CardFramework[]>("/api/card-frameworks"),
+          apiClient.get<CardTemplate[]>("/api/card-templates"),
+          apiClient.get<CardProduct[]>("/api/card-products"),
+          apiClient.get<Product[]>("/api/products"),
+          apiClient.get<Collection[]>("/api/collections"),
+          apiClient.get<Voucher[]>("/api/vouchers"),
+          apiClient.get<CustomerOrder[]>("/api/orders"),
         ]);
 
       setCounts({
@@ -66,6 +114,13 @@ export function Dashboard() {
         inventory: inventory.data?.length ?? null,
         suppliers: suppliers.data?.length ?? null,
         purchaseOrders: purchaseOrders.data?.length ?? null,
+        cardFrameworks: cardFrameworks.data?.length ?? null,
+        cardTemplates: cardTemplates.data?.length ?? null,
+        cardProducts: cardProducts.data?.length ?? null,
+        products: products.data?.length ?? null,
+        collections: collections.data?.length ?? null,
+        vouchers: vouchers.data?.length ?? null,
+        orders: orders.data?.length ?? null,
       });
     }
 
@@ -79,6 +134,13 @@ export function Dashboard() {
     { title: "Inventory Items", Icon: Package, count: counts.inventory, href: "/admin/inventory" },
     { title: "Suppliers", Icon: Truck, count: counts.suppliers, href: "/admin/suppliers" },
     { title: "Purchase Orders", Icon: ShoppingCart, count: counts.purchaseOrders, href: "/admin/purchase-orders" },
+    { title: "Card Frameworks", Icon: Layers, count: counts.cardFrameworks, href: "/admin/card-frameworks" },
+    { title: "Card Templates", Icon: CreditCard, count: counts.cardTemplates, href: "/admin/cards" },
+    { title: "NFC Products", Icon: Nfc, count: counts.cardProducts, href: "/admin/nfc" },
+    { title: "Products", Icon: Boxes, count: counts.products, href: "/admin/products" },
+    { title: "Collections", Icon: Library, count: counts.collections, href: "/admin/collections" },
+    { title: "Vouchers", Icon: TicketPercent, count: counts.vouchers, href: "/admin/vouchers" },
+    { title: "Orders", Icon: ClipboardList, count: counts.orders, href: "/admin/orders" },
   ];
 
   return (

@@ -1,0 +1,7 @@
+import { AnalyticsFeature } from "@/features/analytics";
+
+export const metadata = { title: "Analytics" };
+
+export default function AnalyticsPage() {
+  return <AnalyticsFeature />;
+}

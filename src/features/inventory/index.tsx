@@ -6,6 +6,7 @@ import { PlusIcon, Pencil, Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Header } from "@/components/layout/header";
 import { Main } from "@/components/layout/main";
+import { Skeleton } from "@/components/ui/skeleton";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import {
@@ -85,7 +86,26 @@ export function InventoryFeature() {
 
       <Main>
         {loading ? (
-          <p className="py-8 text-center text-muted-foreground">Loading...</p>
+          <div className="rounded-md border">
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  {Array.from({ length: 6 }).map((_, i) => (
+                    <TableHead key={i}><Skeleton className="h-4 w-16" /></TableHead>
+                  ))}
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {Array.from({ length: 5 }).map((_, i) => (
+                  <TableRow key={i}>
+                    {Array.from({ length: 6 }).map((_, j) => (
+                      <TableCell key={j}><Skeleton className="h-4 w-full" /></TableCell>
+                    ))}
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </div>
         ) : (
           <div className="rounded-md border">
             <Table>
